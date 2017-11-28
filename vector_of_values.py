@@ -1,49 +1,26 @@
 class the_vector_of_values:
     def __init__(self, str):
-        self.vector = bytearray()
         self.size = len(str)
-        if self.size % 8 == 0:
-            for i in range(self.size // 8):
-                self.vector.append(0)
-                for j in range(8):
-                    if str[i*8 + j] == "1":
-                        self.vector[i] = self._set_bit(self.vector[i], j)
-        else:
-            for i in range(self.size // 8 + 1):
-               self.vector.append(0)
-               if i != self.size // 8:
-                   for j in range(8):
-                       if str[i * 8 + j] == "1":
-                           self.vector[i] = self._set_bit(self.vector[i], j)
-               else:
-                   for j in range(self.size - 8*(self.size // 8)):
-                       if str[8*(self.size // 8) + j] == "1":
-                           self.vector[i] = self._set_bit(self.vector[i], j)
+        self.size_vector = (len(str) - 1) // 8 + 1
+        self.vector = bytearray([0] * self.size_vector)
+        for i in range(len(str)):
+            if str[i] == "1":
+                self._set_bit(i)
 
-    def _set_bit(self, value, position):
-        return value | (1 << position)
-
-    def _check_bit(self,value, position):
-        return (value & (1 << position)) != 0
-
+def _set_bit(self, position):
+    self.vector[position // 8] = self.vector[position // 8] | (1 << (7 - (position % 8)))
+    
+    def _check_bit(self, position):
+        return (self.vector[position // 8] & (1 << (7 - (position % 8)))) != 0
+    
     def get_vector(self):
         rez = ""
-        if self.size % 8 == 0:
-            for i in range(self.size // 8):
-                for j in range(8):
-                    rez = rez + str(int(self._check_bit(self.vector[i], j)))
-        else:
-            for i in range(self.size // 8 + 1):
-                if i != (self.size //8):
-                    for j in range(8):
-                        rez = rez + str(int(self._check_bit(self.vector[i], j)))
-                else:
-                    for j in range(self.size - 8*(self.size // 8)):
-                        rez = rez + str(int(self._check_bit(self.vector[i], j)))
+        for i in range(self.size):
+            rez = rez + str(int(self._check_bit(i)))
         return rez
-
+    
     def get_bit(self, position):
-        return self._check_bit(self.vector[position // 8], position - (position // 8)*8)
-
+        return self._check_bit(position)
+    
     def get_size(self):
         return self.size
