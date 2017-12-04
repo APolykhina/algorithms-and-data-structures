@@ -19,8 +19,11 @@ def check_function(bul_func):
         ('M', check.check_class_M(bul_func)),
         ('L', check.check_class_L(bul_func)),
     ]
-    for name, rezult in temp:
-        rez = rez + '{} - {}'.format(name, 'принадлежит \n' if rezult == 1 else 'не принадлежит \n')
+    for name, result in temp:
+        if result:
+            rez = rez + name + ' - ' + 'принадлежит \n'
+        else:
+            rez = rez + name + ' - ' + 'не принадлежит \n'
     return rez
 
 

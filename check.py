@@ -33,13 +33,6 @@ def check_class_M(bul_func):
     return comparision_of_vectors(bul_func, 0, bul_func.get_size() // 2, bul_func.get_size() // 2)
 
 
-def sum_mod_2(ch1, ch2):
-    if (ch1 == 1 and ch2 == 1) or (ch1 == 0 and ch2 == 0):
-        return 0
-    else:
-        return 1
-
-
 def check_class_L(bul_func):
     value_list = dict()
     deg = 0
@@ -52,15 +45,15 @@ def check_class_L(bul_func):
         if i == 0:
             value_list[0] = int(bul_func.get_bit(0))
         elif i == pow(2, current_deg):
-            value_list[deg - current_deg] = sum_mod_2(value_list[0], int(bul_func.get_bit(i)))
+            value_list[deg - current_deg] = value_list[0] ^ int(bul_func.get_bit(i))
             current_deg = current_deg + 1
         else:
-            rez = sum_mod_2(value_list[0], int(bul_func.get_bit(i)))
+            rez = value_list[0] ^ int(bul_func.get_bit(i))
             num_of_x = deg
             x = i
             while x != 0:
                 if x & 1:
-                    rez = sum_mod_2(rez, value_list[num_of_x])
+                    rez = rez ^ value_list[num_of_x]
                 num_of_x = num_of_x - 1
                 x = x >> 1
             if rez:
